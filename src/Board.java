@@ -8,10 +8,10 @@ public class Board extends JPanel {
     private Image frog;
 
     Board(){
-        setBackground(Color.CYAN);
-        setFocusable(true); // for frame focus
-        loadImages();
-        initGame();
+        this.setBackground(Color.CYAN);
+        this.setFocusable(true); // for frame focus
+        this.loadImages();
+        this.initGame();
 
     }
     public void loadImages(){
