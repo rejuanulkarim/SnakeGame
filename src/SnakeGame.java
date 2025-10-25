@@ -4,20 +4,21 @@ import java.awt.*;
 public class SnakeGame extends JFrame {
     SnakeGame() {
         super("SnakeGame");
-
+        int delay=100;
         int boardWidth = 500;
         int boardHeight = boardWidth;
-
+        boolean wallCollied=false;
         // Set up frame properties
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
         // Add the game panel (assuming Game extends JPanel and handles the game)
-        add(new Game(boardWidth, boardHeight));
+        add(new Game(boardWidth, boardHeight,delay,wallCollied));
         pack();  // Resize frame to fit the preferred size of its components
 
         setLocationRelativeTo(null); // Center the window
         setVisible(true);            // Make frame visible (AFTER adding components)
+
 
     }
     public static void main(String[] args) {

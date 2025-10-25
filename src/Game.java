@@ -10,8 +10,6 @@ import java.util.Random;
 public class Game extends JPanel implements ActionListener, KeyListener {
 
 
-
-
     private class Tile {
         int x;
         int y;
@@ -39,9 +37,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     int velocityY ;
     boolean gameOver= false;
 
+    //wall collision detection flag
+    boolean wallCollied ;
 
-
-    Game(int boardWidth, int boardHeight) {
+    Game(int boardWidth, int boardHeight, int delay,boolean wallCollied) {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         setPreferredSize(new Dimension(boardWidth, boardHeight));
@@ -57,10 +56,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         velocityX =1;
         velocityY =0;
         gameLoop = new Timer(100,this);
+        gameLoop.setDelay(delay);
         gameLoop.start();
         addKeyListener(this);
         setFocusable(true);
-
+        //wall collision detection flag
+        this.wallCollied = wallCollied;
     }
 
 
@@ -135,17 +136,18 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
 
         //snake Head move;
-        snakeHead.x+=velocityX;
-        snakeHead.y+=velocityY;
-//        if(snakeHead.x<0){
-//            snakeHead.x=boardWidth/tileSize-1;
-//        }else{
-//        snakeHead.x=(snakeHead.x%(boardWidth/tileSize))+velocityX;}
-//        if(snakeHead.y<0){
-//            snakeHead.y=boardWidth/tileSize-1;
-//        }else{
-//        snakeHead.y= (snakeHead.y%(boardWidth/tileSize))+velocityY;}
-//
+
+//        snakeHead.x+=velocityX;
+//        snakeHead.y+=velocityY;}
+
+        if(snakeHead.x<0){
+            snakeHead.x=boardWidth/tileSize-1;
+        }else{
+        snakeHead.x=((snakeHead.x+velocityX)%(boardWidth/tileSize));}
+        if(snakeHead.y<0){
+            snakeHead.y=boardWidth/tileSize-1;
+        }else{
+        snakeHead.y= ((snakeHead.y+velocityY)%(boardWidth/tileSize));}
 
 
         //Game over condition;
@@ -156,9 +158,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 gameOver=true;
             }
             // collide with wall
-            if(snakeHead.x*tileSize<0||snakeHead.x*tileSize>=boardWidth||
-                    snakeHead.y*tileSize<0||snakeHead.y*tileSize>=boardHeight){
-                gameOver=true;
+            if(wallCollied){
+                if(snakeHead.x*tileSize<0||snakeHead.x*tileSize>=boardWidth||
+                        snakeHead.y*tileSize<0||snakeHead.y*tileSize>=boardHeight){
+                    gameOver=true;
+                }
             }
         }
 
